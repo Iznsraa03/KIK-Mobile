@@ -166,11 +166,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                   const SizedBox(height: 8),
                                   Row(
                                     children: [
-                                      _MetaPill(
-                                        label: item.status,
-                                        color: cs.secondaryContainer,
-                                        textColor: cs.onSecondaryContainer,
-                                      ),
+                                      // _MetaPill(
+                                      //   label: item.status,
+                                      //   color: cs.secondaryContainer,
+                                      //   textColor: cs.onSecondaryContainer,
+                                      // ),
                                       const SizedBox(width: 8),
                                       _MetaPill(
                                         label: item.year == 0 ? '-' : '${item.year}',

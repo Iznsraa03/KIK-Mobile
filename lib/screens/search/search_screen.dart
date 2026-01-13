@@ -4,6 +4,61 @@ import '../../data/dummy_data.dart';
 import '../../repositories/search_repository.dart';
 import '../detail/detail_screen.dart';
 
+class _SearchResultThumbnail extends StatelessWidget {
+  const _SearchResultThumbnail({
+    required this.imageUrl,
+    required this.fallbackColor,
+  });
+
+  final String? imageUrl;
+  final Color fallbackColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final url = imageUrl?.trim();
+    final hasUrl = url != null && url.isNotEmpty;
+
+    Widget placeholder({bool showLoading = false}) {
+      return Container(
+        color: fallbackColor,
+        child: showLoading
+            ? Center(
+                child: SizedBox(
+                  height: 16,
+                  width: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: cs.onSurfaceVariant.withValues(alpha: 0.75),
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: SizedBox(
+        height: 42,
+        width: 42,
+        child: hasUrl
+            ? Image.network(
+                url,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => placeholder(),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return placeholder(showLoading: true);
+                },
+              )
+            : placeholder(),
+      ),
+    );
+  }
+}
+
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -122,14 +177,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             tileColor: cs.surface,
-                            leading: Container(
-                              height: 42,
-                              width: 42,
-                              decoration: BoxDecoration(
-                                color: cat.accent.withValues(alpha: 0.14),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Icon(cat.icon, color: cat.accent),
+                            leading: _SearchResultThumbnail(
+                              imageUrl: item.image,
+                              fallbackColor: cat.accent.withValues(alpha: 0.14),
                             ),
                             title: Text(
                               item.title,

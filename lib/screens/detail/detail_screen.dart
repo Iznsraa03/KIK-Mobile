@@ -18,6 +18,79 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late final Future<KiItem> _future;
 
+  void _openImageViewer(String imageUrl) {
+    showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Close',
+      barrierColor: Colors.black.withValues(alpha: 0.92),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        final cs = Theme.of(context).colorScheme;
+
+        return SafeArea(
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: InteractiveViewer(
+                    minScale: 0.9,
+                    maxScale: 4.0,
+                    child: Center(
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: cs.surface,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.broken_image_outlined,
+                                  color: cs.onSurfaceVariant,
+                                  size: 42,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'Gagal memuat gambar',
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: IconButton.filled(
+                    tooltip: 'Tutup',
+                    onPressed: () => Navigator.of(context).maybePop(),
+                    icon: const Icon(Icons.close_rounded),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,23 +136,26 @@ class _DetailScreenState extends State<DetailScreen> {
                       if (item.imagePath != null &&
                           (item.imagePath!.startsWith('http://') ||
                               item.imagePath!.startsWith('https://')))
-                        Image.network(
-                          item.imagePath!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            // Bantu debugging (khususnya Flutter Web / CORS / mixed content)
-                            debugPrint(
-                              '[Image] Failed to load header image: ${item.imagePath} | error: $error',
-                            );
-                            return Container(
-                              color: cs.surfaceContainerHighest,
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.broken_image_outlined,
-                                color: cs.onSurfaceVariant,
-                              ),
-                            );
-                          },
+                        GestureDetector(
+                          onTap: () => _openImageViewer(item.imagePath!),
+                          child: Image.network(
+                            item.imagePath!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              // Bantu debugging (khususnya Flutter Web / CORS / mixed content)
+                              debugPrint(
+                                '[Image] Failed to load header image: ${item.imagePath} | error: $error',
+                              );
+                              return Container(
+                                color: cs.surfaceContainerHighest,
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.broken_image_outlined,
+                                  color: cs.onSurfaceVariant,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       Container(
                         decoration: BoxDecoration(
@@ -188,16 +264,16 @@ class _DetailScreenState extends State<DetailScreen> {
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          _Badge(
-                            label: item.status,
-                            background: cs.secondaryContainer,
-                            foreground: cs.onSecondaryContainer,
-                          ),
-                          _Badge(
-                            label: item.id,
-                            background: cs.surfaceContainerHighest,
-                            foreground: cs.onSurface,
-                          ),
+                          // _Badge(
+                          //   label: item.status,
+                          //   background: cs.secondaryContainer,
+                          //   foreground: cs.onSecondaryContainer,
+                          // ),
+                          // _Badge(
+                          //   label: item.id,
+                          //   background: cs.surfaceContainerHighest,
+                          //   foreground: cs.onSurface,
+                          // ),
                           _Badge(
                             label: item.location,
                             background: Colors.white,
@@ -277,7 +353,10 @@ class _DetailScreenState extends State<DetailScreen> {
 
                       if (item.media != null && item.media!.isNotEmpty) ...[
                         const SizedBox(height: 12),
-                        _MediaSection(mediaUrls: item.media!),
+                        _MediaSection(
+                          mediaUrls: item.media!,
+                          onOpenImage: _openImageViewer,
+                        ),
                       ],
 
                       if (item.resourceLinks != null &&
@@ -383,9 +462,10 @@ class _DetailScreenState extends State<DetailScreen> {
 }
 
 class _MediaSection extends StatelessWidget {
-  const _MediaSection({required this.mediaUrls});
+  const _MediaSection({required this.mediaUrls, required this.onOpenImage});
 
   final List<String> mediaUrls;
+  final ValueChanged<String> onOpenImage;
 
   bool _isVideo(String url) {
     final lower = url.toLowerCase();
@@ -487,25 +567,28 @@ class _MediaSection extends StatelessWidget {
                   runSpacing: 10,
                   children: [
                     for (final img in images)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          img,
-                          width: size,
-                          height: size,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: size,
-                              height: size,
-                              color: cs.surfaceContainerHighest,
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.broken_image_outlined,
-                                color: cs.onSurfaceVariant,
-                              ),
-                            );
-                          },
+                      GestureDetector(
+                        onTap: () => onOpenImage(img),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            img,
+                            width: size,
+                            height: size,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: size,
+                                height: size,
+                                color: cs.surfaceContainerHighest,
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.broken_image_outlined,
+                                  color: cs.onSurfaceVariant,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                   ],

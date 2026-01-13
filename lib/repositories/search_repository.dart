@@ -1,4 +1,5 @@
 import '../api/api_client.dart';
+import '../api/api_config.dart';
 import '../api/api_exception.dart';
 import '../api/api_models.dart';
 import '../data/dummy_data.dart';
@@ -31,6 +32,31 @@ class SearchRepository {
 
   final ApiClient _api;
 
+  String? _absUrlIfNeeded(String? value) {
+    if (value == null) return null;
+    final v = value.trim();
+    if (v.isEmpty || v == '-') return null;
+
+    final base = ApiConfig.fileBaseUrl.replaceAll(RegExp(r'/+$'), '');
+
+    // absolute URL -> biarkan
+    if (v.startsWith('http://') || v.startsWith('https://')) return v;
+
+    // Heuristik: jika hanya filename (contoh: "abc.jpg"), pada backend kamu
+    // file ada di `public/storage/gambar/<filename>`.
+    // Maka public URL-nya biasanya: `/storage/gambar/<filename>`.
+    //
+    // Catatan: ini mengasumsikan Laravel sudah expose folder `public/storage`.
+    final looksLikeFileNameOnly = !v.contains('/') && v.contains('.');
+    if (looksLikeFileNameOnly) {
+      return '$base/storage/gambar/$v';
+    }
+
+    // relative path (storage/... , berita/... , media/... , dll)
+    final rel = v.startsWith('/') ? v.substring(1) : v;
+    return '$base/$rel';
+  }
+
   KiCategoryType _parseCategory(Object? raw) {
     final v = raw?.toString().toUpperCase().trim();
     return switch (v) {
@@ -50,6 +76,13 @@ class SearchRepository {
     }
 
     final id = json['id']?.toString() ?? '';
+
+    // Support beberapa variasi key dari backend:
+    // - /search (SearchController): `image` -> biasanya berisi `$item->gambar` atau `$item->logo`
+    // - response detail model: `gambar` (kadang filename saja)
+    // - kemungkinan lain: `imagepath`
+    final rawImage = (json['imagepath'] ?? json['gambar'] ?? json['image'])?.toString();
+
     return KiSearchItem(
       id: id,
       category: _parseCategory(json['category']),
@@ -59,7 +92,7 @@ class SearchRepository {
       description: json['description']?.toString() ?? '',
       region: json['region']?.toString() ?? '-',
       status: json['status']?.toString() ?? '-',
-      image: json['image']?.toString(),
+      image: _absUrlIfNeeded(rawImage),
       createdAt: json['created_at'] is String
           ? DateTime.tryParse(json['created_at'] as String)
           : null,

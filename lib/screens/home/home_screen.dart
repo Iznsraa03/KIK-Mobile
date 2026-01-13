@@ -144,7 +144,7 @@ class _HomeTabState extends State<_HomeTab> {
                     final data = snapshot.data;
                     final total = data?['total'];
                     final kabKota = 24; // tidak ada endpoint khusus; tetap dummy
-                    final verified = null; // perlu definisi status "terverifikasi" dari backend
+                    // final verified = null; // perlu definisi status "terverifikasi" dari backend
 
                     final stats = <KiStat>[
                       KiStat(
@@ -158,11 +158,11 @@ class _HomeTabState extends State<_HomeTab> {
                         value: '$kabKota',
                         icon: Icons.map_outlined,
                       ),
-                      KiStat(
-                        label: 'Terverifikasi',
-                        value: verified?.toString() ?? '—',
-                        icon: Icons.verified_outlined,
-                      ),
+                      // KiStat(
+                      //   label: 'Terverifikasi',
+                      //   value: verified?.toString() ?? '—',
+                      //   icon: Icons.verified_outlined,
+                      // ),
                     ];
 
                     return _QuickStatsRow(stats: stats);
