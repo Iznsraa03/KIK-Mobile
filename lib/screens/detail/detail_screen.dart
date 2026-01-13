@@ -438,17 +438,17 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ],
                       const SizedBox(height: 18),
-                      FilledButton.icon(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Aksi UI (prototype).'),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.bookmark_add_outlined),
-                        label: const Text('Simpan (UI)'),
-                      ),
+                      // FilledButton.icon(
+                      //   onPressed: () {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //         content: Text('Aksi UI (prototype).'),
+                      //       ),
+                      //     );
+                      //   },
+                      //   // icon: const Icon(Icons.bookmark_add_outlined),
+                      //   // label: const Text('Simpan (UI)'),
+                      // ),
                     ],
                   ),
                 ),
