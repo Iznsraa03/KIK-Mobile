@@ -219,45 +219,45 @@ class _HomeTabState extends State<_HomeTab> {
             );
           },
         ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
-          sliver: SliverToBoxAdapter(
-            child: AppSectionHeader(
-              title: 'Data terbaru',
-              subtitle: 'Update terakhir (dummy data).',
-              actionLabel: 'Cari',
-              onAction: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SearchScreen()),
-                );
-              },
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 18),
-          sliver: SliverList.separated(
-            itemCount: DummyData.latestItems.length,
-            separatorBuilder: (_, i) => const SizedBox(height: 12),
-            itemBuilder: (context, i) {
-              final item = DummyData.latestItems[i];
-              final category = DummyData.categoryOf(item.category);
+        // SliverPadding(
+        //   padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
+        //   sliver: SliverToBoxAdapter(
+        //     child: AppSectionHeader(
+        //       title: 'Data terbaru',
+        //       subtitle: 'Update terakhir (dummy data).',
+        //       actionLabel: 'Cari',
+        //       onAction: () {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(builder: (_) => const SearchScreen()),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
+        // SliverPadding(
+        //   padding: const EdgeInsets.fromLTRB(16, 12, 16, 18),
+        //   sliver: SliverList.separated(
+        //     itemCount: DummyData.latestItems.length,
+        //     separatorBuilder: (_, i) => const SizedBox(height: 12),
+        //     itemBuilder: (context, i) {
+        //       final item = DummyData.latestItems[i];
+        //       final category = DummyData.categoryOf(item.category);
 
-              return _LatestItemCard(
-                categoryAccent: category.accent,
-                categoryLabel: category.title,
-                item: item,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => DetailScreen(item: item),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+        //       return _LatestItemCard(
+        //         categoryAccent: category.accent,
+        //         categoryLabel: category.title,
+        //         item: item,
+        //         onTap: () {
+        //           Navigator.of(context).push(
+        //             MaterialPageRoute(
+        //               builder: (_) => DetailScreen(item: item),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
