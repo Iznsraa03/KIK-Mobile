@@ -219,6 +219,7 @@ class _HomeTabState extends State<_HomeTab> {
             );
           },
         ),
+        SliverPadding(padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),sliver: SliverToBoxAdapter(child: SizedBox(height: 10,),),)
         // SliverPadding(
         //   padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
         //   sliver: SliverToBoxAdapter(
