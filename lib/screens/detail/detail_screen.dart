@@ -318,6 +318,12 @@ class _DetailScreenState extends State<DetailScreen> {
                               label: 'Komunitas',
                               value: item.community!,
                             ),
+                          // if (item.noPencatatan != null &&
+                          //     item.noPencatatan!.isNotEmpty)
+                            _InfoRow(
+                              label: 'No. Pencatatan',
+                              value: item.noPencatatan == ''? '-':'${item.noPencatatan}',
+                            ),
                           _InfoRow(label: 'Pemilik', value: item.owner),
                           _InfoRow(
                             label: 'Tahun',

@@ -18,6 +18,8 @@ class KiCategory {
     required this.type,
     required this.title,
     required this.subtitle,
+    this.description,
+    this.goals,
     required this.icon,
     required this.accent,
     required this.totalCount,
@@ -26,6 +28,8 @@ class KiCategory {
   final KiCategoryType type;
   final String title;
   final String subtitle;
+  final String? description;
+  final String? goals;
   final IconData icon;
   final Color accent;
   final int totalCount;
@@ -35,6 +39,7 @@ class KiCategory {
 class KiItem {
   const KiItem({
     required this.id,
+    this.noPencatatan,
     required this.category,
     required this.title,
     required this.owner,
@@ -57,6 +62,9 @@ class KiItem {
   /// Pada dummy data sebelumnya formatnya seperti `EBT-0001`.
   /// Dari API kamu berupa integer (contoh: `2`) yang kita simpan sebagai string.
   final String id;
+
+  /// Nomor pencatatan/permohonan dari backend (API: `no_pencatatan`).
+  final String? noPencatatan;
 
   final KiCategoryType category;
 
@@ -122,6 +130,8 @@ class DummyData {
       type: KiCategoryType.ebt,
       title: 'EBT',
       subtitle: 'Ekspresi Budaya Tradisional',
+      description: 'Ekspresi Budaya Tradisional merupakan bentuk seni dan tradisi yang diwariskan secara turun-temurun dalam suatu komunitas.',
+      goals: 'Tujuannya adalah melindungi warisan budaya dan mencegah klaim oleh pihak lain.',
       icon: Icons.palette_outlined,
       accent: Color(0xFF22C55E),
       totalCount: 0,
@@ -130,6 +140,8 @@ class DummyData {
       type: KiCategoryType.pt,
       title: 'PT',
       subtitle: 'Paten / Teknologi',
+      description: 'Pengetahuan Tradisional adalah pengetahuan lokal yang berkembang dan diwariskan antar generasi.',
+      goals: 'Tujuannya untuk menjaga hak masyarakat serta mencegah penyalahgunaan.',
       icon: Icons.lightbulb_outline,
       accent: Color(0xFF0EA5E9),
       totalCount: 0,
@@ -138,6 +150,8 @@ class DummyData {
       type: KiCategoryType.pig,
       title: 'PIG',
       subtitle: 'Potensi Indikasi Geografis',
+      description: 'Potensi Indikasi Geografis adalah produk khas daerah yang memiliki kualitas atau ciri tertentu.',
+      goals: 'Tujuannya memberikan nilai ekonomi sekaligus melindungi nama dan reputasi daerah.',
       icon: Icons.place_outlined,
       accent: Color(0xFF14B8A6),
       totalCount: 0,
@@ -146,14 +160,18 @@ class DummyData {
       type: KiCategoryType.sdg,
       title: 'SDG',
       subtitle: 'Sumber Daya Genetik',
+      description: 'Sumber Daya Genetik mencakup tumbuhan, hewan, atau mikroorganisme khas suatu daerah.',
+      goals: 'Tujuannya melindungi kekayaan hayati dan memastikan pemanfaatannya secara adil.',
       icon: Icons.eco_outlined,
       accent: Color(0xFF84CC16),
       totalCount: 0,
     ),
     KiCategory(
       type: KiCategoryType.ia,
-      title: 'IA',
-      subtitle: 'Industri & Aset',
+      title: 'Wisata Berbasis kekakyaan intelektual',
+      subtitle: 'Wisata Berbasis kekakyaan intelektual',
+      description: 'Wisata Berbasis kekakyaan intelektual',
+      goals: 'Wisata Berbasis kekakyaan intelektual',
       icon: Icons.apartment_outlined,
       accent: Color(0xFF6366F1),
       totalCount: 0,
@@ -162,6 +180,8 @@ class DummyData {
       type: KiCategoryType.ig,
       title: 'IG',
       subtitle: 'Indikasi Geografis',
+      description: 'Indikasi Geografis',
+      goals: 'Indikasi Geografis',
       icon: Icons.verified_outlined,
       accent: Color(0xFFF97316),
       totalCount: 0,

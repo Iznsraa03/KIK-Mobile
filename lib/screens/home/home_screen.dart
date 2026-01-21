@@ -132,14 +132,29 @@ class _HomeTabState extends State<_HomeTab> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Jelajah Kekayaan\nIntelektual Sulsel',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        height: 1.05,
-                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        'Wisata Kekayaan\nIntelektual Sulsel',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.w900,
+                              height: 1.05,
+                            ),
+                    ),
+                    Image.asset(
+                      'assets/logo/logo kemenhum.png',
+                      height: 50,
+
+                    ),
+                    Image.asset(
+                      'assets/logo/logoApps.jpeg',
+                      height: 50,
+
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 // Text(
@@ -221,7 +236,7 @@ class _HomeTabState extends State<_HomeTab> {
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               sliver: SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 150,
+                  height: 250,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: DummyData.categories.length,
@@ -235,6 +250,8 @@ class _HomeTabState extends State<_HomeTab> {
                         child: CategoryCard(
                           title: c.title,
                           subtitle: c.subtitle,
+                          description: c.description,
+                          goals: c.goals,
                           icon: c.icon,
                           accent: c.accent,
                           count: count,

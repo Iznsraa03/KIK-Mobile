@@ -109,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                     child: Image.asset(
-                      'assets/logo/logo kemenhum.png',
+                      'assets/logo/logoApps.jpeg',
                       fit: BoxFit.contain,
                     ),
                   ),

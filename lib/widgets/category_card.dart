@@ -5,6 +5,8 @@ class CategoryCard extends StatefulWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    this.description,
+    this.goals,
     required this.icon,
     required this.accent,
     required this.count,
@@ -13,6 +15,8 @@ class CategoryCard extends StatefulWidget {
 
   final String title;
   final String subtitle;
+  final String? description;
+  final String? goals;
   final IconData icon;
   final Color accent;
   final int count;
@@ -39,12 +43,12 @@ class _CategoryCardState extends State<CategoryCard> {
         duration: const Duration(milliseconds: 120),
         scale: _pressed ? 0.985 : 1,
         child: Container(
+          height: 300,
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: cs.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.7)),
-
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
@@ -92,8 +96,16 @@ class _CategoryCardState extends State<CategoryCard> {
                 widget.subtitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: t.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                style: t.bodySmall?.copyWith(color: cs.onSurfaceVariant, fontWeight: FontWeight.bold),
               ),
+              if (widget.description != null && widget.description!.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(widget.description!, style: const TextStyle(fontSize: 10)),
+              ],
+              if (widget.goals != null && widget.goals!.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(widget.goals!, style: const TextStyle(fontSize: 10)),
+              ],
             ],
           ),
         ),

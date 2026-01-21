@@ -378,8 +378,11 @@ class KiRepository {
 
     final tags = tagsAny(['tag', 'tags', 'kata_kunci']);
 
+    final noPencatatan = stringAny(['no_pencatatan', 'no_permohonan']);
+
     return KiItem(
       id: id,
+      noPencatatan: noPencatatan,
       category: type,
       title: title,
       owner: owner,
