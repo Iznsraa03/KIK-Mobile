@@ -16,7 +16,7 @@ class ApiConfig {
   /// - Device fisik: `http://<ip-laptop>:8000/api`
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8000/api',
+    defaultValue: 'http://192.168.1.9:8000/api',
   );
 
   /// Base URL untuk file publik (gambar/media).

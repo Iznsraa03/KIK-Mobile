@@ -1,5 +1,5 @@
 class ApiImageUrl {
-  static const String baseUrl = 'http://localhost:8000';
+  static const String baseUrl = 'http://192.168.1.9:8000';
 
   static String build(String path) {
     if (path.startsWith('http')) {

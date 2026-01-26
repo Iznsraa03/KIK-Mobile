@@ -65,20 +65,21 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    // final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              cs.primary,
-              cs.primary.withValues(alpha: 0.95),
-              cs.primaryContainer,
-            ],
-          ),
+          color: Colors.white
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     cs.primary,
+          //     cs.primary.withValues(alpha: 0.95),
+          //     cs.primaryContainer,
+          //   ],
+          // ),
         ),
         child: SafeArea(
           child: Center(
