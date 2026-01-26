@@ -119,7 +119,7 @@ class _SplashScreenState extends State<SplashScreen>
                     'Jelajah KI Sulsel',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 0.2,
                         ),
@@ -129,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen>
                     'Eksplorasi Kekayaan Intelektual Sulawesi Selatan',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.86),
+                          color: Colors.black.withValues(alpha: 0.86),
                         ),
                   ),
                   const SizedBox(height: 22),
@@ -138,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
                     height: 56,
                     child: CircularProgressIndicator(
                       strokeWidth: 3,
-                      color: Colors.white.withValues(alpha: 0.9),
+                      color: Colors.blue.withValues(alpha: 0.9),
                       backgroundColor: Colors.white.withValues(alpha: 0.18),
                     ),
                   ),
