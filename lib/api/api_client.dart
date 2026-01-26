@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'api_config.dart';
 import 'api_exception.dart';
 import 'api_logger.dart';
+import 'api_models.dart';
+import '../models/event.dart';
 
 class ApiClient {
   ApiClient({http.Client? client, String? baseUrl})
@@ -13,6 +15,11 @@ class ApiClient {
 
   final http.Client _client;
   final String _baseUrl;
+
+  Future<ApiResponse<List<Event>>> getEvents() async {
+    final json = await getJson('/events');
+    return ApiResponse.listFromJson(json, Event.fromJson);
+  }
 
   Uri _uri(String path, [Map<String, String?>? queryParameters]) {
     final cleanedPath = path.startsWith('/') ? path : '/$path';

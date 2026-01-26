@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'screens/splash/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+  // Required for plugins before runApp
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize date formatting for 'id_ID' locale
+  await initializeDateFormatting('id_ID', null);
   runApp(const JelajahKiSulselApp());
 }
 
@@ -34,6 +40,15 @@ class JelajahKiSulselApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Jelajah KI Sulsel',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('id', 'ID'),
+      ],
+      locale: const Locale('id', 'ID'),
       builder: (context, child) {
         // Global background for all pages.
         return Stack(

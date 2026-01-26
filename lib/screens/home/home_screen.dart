@@ -12,6 +12,8 @@ import '../about/about_screen.dart';
 import '../category/category_list_screen.dart';
 import '../map/map_screen.dart';
 import '../search/search_screen.dart';
+import '../../widgets/event_promo_card.dart';
+import '../event/event_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -270,6 +272,27 @@ class _HomeTabState extends State<_HomeTab> {
               ),
             );
           },
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+          sliver: SliverToBoxAdapter(
+            child: AppSectionHeader(
+              title: 'Event',
+              subtitle: 'Lihat event-event terbaru.',
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+          sliver: SliverToBoxAdapter(
+            child: EventPromoCard(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const EventListScreen()),
+                );
+              },
+            ),
+          ),
         ),
         SliverPadding(padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),sliver: SliverToBoxAdapter(child: SizedBox(height: 10,),),)
         // SliverPadding(
