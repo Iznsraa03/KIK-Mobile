@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:kik_mobile/api/api_image_url.dart';
-import 'package:kik_mobile/models/event.dart';
+import 'package:JELAJAH_KI_SULSEL/api/api_image_url.dart';
+import 'package:JELAJAH_KI_SULSEL/models/event.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailScreen extends StatelessWidget {
@@ -76,45 +76,63 @@ class EventDetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       event.judul,
-                      style: GoogleFonts.lato(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    _buildInfoRow(
-                      context,
-                      icon: Icons.calendar_today_outlined,
-                      label: 'Tanggal & Waktu',
-                      value: DateFormat('dd MMMM yyyy, HH:mm', 'id_ID')
-                          .format(event.waktuPelaksanaan),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInfoRow(
-                      context,
-                      icon: Icons.location_on_outlined,
-                      label: 'Wilayah',
-                      value: event.wilayah,
-                    ),
-                    const Divider(height: 40, thickness: 1),
-                    Text(
-                      'Deskripsi Event',
-                      style: GoogleFonts.lato(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
+                    _EventInfoCard(
+                      title: 'Informasi Event',
+                      child: Column(
+                        children: [
+                          _buildInfoRow(
+                            context,
+                            icon: Icons.calendar_today_outlined,
+                            label: 'Tanggal & Waktu',
+                            value: Text(
+                              DateFormat('dd MMMM yyyy, HH:mm', 'id_ID')
+                                  .format(event.waktuPelaksanaan),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildInfoRow(
+                            context,
+                            icon: Icons.location_on_outlined,
+                            label: 'Wilayah',
+                            value: Text(
+                              event.wilayah,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      event.deskripsi,
-                      style: GoogleFonts.lato(
-                          fontSize: 16,
-                          color: Colors.black87.withOpacity(0.7),
-                          height: 1.5),
+                    const SizedBox(height: 16),
+                    _EventInfoCard(
+                      title: 'Deskripsi Event',
+                      child: Text(
+                        event.deskripsi,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          height: 1.5,
+                        ),
+                      ),
                     ),
-                    if (event.media != null && event.media!.isNotEmpty)
-                      _buildMediaGallery(context, event.media!),
+                    if (event.media != null && event.media!.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      _EventInfoCard(
+                        title: 'Galeri Media',
+                        child: _buildMediaGallery(context, event.media!),
+                      ),
+                    ],
                     const SizedBox(height: 80),
                   ],
                 ),
@@ -173,12 +191,13 @@ class EventDetailScreen extends StatelessWidget {
     );
   }
 
+
   Widget _buildInfoRow(BuildContext context,
-      {required IconData icon, required String label, required String value}) {
+      {required IconData icon, required String label, required Widget value}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: Theme.of(context).primaryColor, size: 22),
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 22),
         const SizedBox(width: 20),
         Expanded(
           child: Column(
@@ -192,18 +211,95 @@ class EventDetailScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
-              Text(
-                value,
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              value,
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _EventInfoCard extends StatelessWidget {
+  const _EventInfoCard({required this.title, required this.child});
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cs.outlineVariant.withOpacity(0.7)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 10),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+// ignore: unused_element
+class _EventInfoExpandable extends StatelessWidget {
+  const _EventInfoExpandable({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cs.outlineVariant.withOpacity(0.7)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 14),
+          childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+          title: Text(
+            title,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+          ),
+          children: children,
+        ),
+      ),
     );
   }
 }

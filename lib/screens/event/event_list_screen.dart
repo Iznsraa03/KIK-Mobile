@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:kik_mobile/api/api_image_url.dart';
-import 'package:kik_mobile/models/event.dart';
-import 'package:kik_mobile/repositories/event_repository.dart';
-import 'package:kik_mobile/screens/event/event_detail_screen.dart';
-import 'package:kik_mobile/widgets/info_chip.dart';
+import 'package:JELAJAH_KI_SULSEL/api/api_image_url.dart';
+import 'package:JELAJAH_KI_SULSEL/models/event.dart';
+import 'package:JELAJAH_KI_SULSEL/repositories/event_repository.dart';
+import 'package:JELAJAH_KI_SULSEL/screens/event/event_detail_screen.dart';
+import 'package:JELAJAH_KI_SULSEL/widgets/info_chip.dart';
 
 class EventListScreen extends StatefulWidget {
   const EventListScreen({super.key});

@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Auto-navigate untuk prototype.
-    _navTimer = Timer(const Duration(milliseconds: 1400), () {
+    _navTimer = Timer(const Duration(milliseconds: 3000), () {
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(

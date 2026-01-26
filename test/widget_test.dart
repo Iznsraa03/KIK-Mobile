@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:kik_mobile/main.dart';
+import 'package:JELAJAH_KI_SULSEL/main.dart';
 
 void main() {
   testWidgets('App builds smoke test', (WidgetTester tester) async {
